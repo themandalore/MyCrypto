@@ -26,6 +26,8 @@ const SMain = styled('main')`
 const SContainer = styled('div')`
   padding: 50px ${MIN_CONTENT_PADDING};
   max-width: ${MAX_CONTENT_WIDTH};
+  width: 100%;
+  align-items: center;
 
   // This is the moment our header becomes sticky and shrinks.
   // Since it is aboslute positionning we add the extra height to
