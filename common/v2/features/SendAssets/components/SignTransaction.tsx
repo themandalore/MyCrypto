@@ -1,11 +1,16 @@
 import React from 'react';
 
-import { WalletId, ITxReceipt } from 'v2/types';
-import { IStepComponentProps, ISignComponentProps, ISignedTx } from '../types';
+import {
+  WalletId,
+  ITxReceipt,
+  IStepComponentProps,
+  ISignComponentProps,
+  ISignedTx
+} from 'v2/types';
 import {
   SignTransactionKeystore,
   SignTransactionLedger,
-  SignTransactionMetaMask,
+  SignTransactionWeb3,
   SignTransactionPrivateKey,
   SignTransactionSafeT,
   SignTransactionTrezor,
@@ -17,7 +22,11 @@ type SigningComponents = {
 };
 const SigningComponents: SigningComponents = {
   [WalletId.PRIVATE_KEY]: SignTransactionPrivateKey,
-  [WalletId.METAMASK]: SignTransactionMetaMask,
+  [WalletId.METAMASK]: SignTransactionWeb3,
+  [WalletId.TRUST]: SignTransactionWeb3,
+  [WalletId.CIPHER]: SignTransactionWeb3,
+  [WalletId.MIST]: SignTransactionWeb3,
+  [WalletId.FRAME]: SignTransactionWeb3,
   [WalletId.LEDGER_NANO_S]: SignTransactionLedger,
   [WalletId.TREZOR]: SignTransactionTrezor,
   [WalletId.SAFE_T_MINI]: SignTransactionSafeT,

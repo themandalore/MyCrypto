@@ -24,7 +24,7 @@ import {
   ZeroEx,
   Home,
   SignAndVerifyMessage,
-  BroadcastTx
+  BroadcastTransactionFlow
 } from 'v2/features';
 import { requiresDesktopApp } from './helpers';
 
@@ -44,6 +44,7 @@ export const APP_ROUTES: IAppRoute[] = [
     title: ROUTE_PATHS.DASHBOARD.title,
     path: ROUTE_PATHS.DASHBOARD.path,
     exact: true,
+    requireAccounts: true,
     component: Dashboard
   },
   {
@@ -93,6 +94,7 @@ export const APP_ROUTES: IAppRoute[] = [
     title: ROUTE_PATHS.RECEIVE_ASSETS.title,
     path: ROUTE_PATHS.RECEIVE_ASSETS.path,
     exact: true,
+    requireAccounts: true,
     component: ReceiveAssets
   },
   {
@@ -121,6 +123,7 @@ export const APP_ROUTES: IAppRoute[] = [
     title: ROUTE_PATHS.SEND.title,
     path: ROUTE_PATHS.SEND.path,
     exact: true,
+    requireAccounts: true,
     component: SendAssets
   },
   {
@@ -181,6 +184,6 @@ export const APP_ROUTES: IAppRoute[] = [
     name: ROUTE_PATHS.BROADCAST_TX.name,
     title: ROUTE_PATHS.BROADCAST_TX.title,
     path: ROUTE_PATHS.BROADCAST_TX.path,
-    component: BroadcastTx
+    component: BroadcastTransactionFlow
   }
 ];

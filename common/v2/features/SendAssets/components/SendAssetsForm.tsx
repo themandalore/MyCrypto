@@ -9,7 +9,7 @@ import styled from 'styled-components';
 
 import translate, { translateRaw } from 'translations';
 import { WhenQueryExists } from 'components/renderCbs';
-import { InlineErrorMsg } from 'v2/components';
+import { InlineErrorMsg, AccountDropdown } from 'v2/components';
 import {
   getNetworkById,
   getBaseAssetByNetwork,
@@ -18,7 +18,16 @@ import {
   StoreContext,
   getTokenBalanceFromAccount
 } from 'v2/services/Store';
-import { Asset, Network, ExtendedAccount, StoreAsset, TTicker } from 'v2/types';
+import {
+  Asset,
+  Network,
+  ExtendedAccount,
+  StoreAsset,
+  WalletId,
+  IFormikFields,
+  IStepComponentProps,
+  TTicker
+} from 'v2/types';
 import {
   getNonce,
   hexToNumber,
@@ -39,9 +48,8 @@ import {
 } from 'v2/config';
 import { RatesContext } from 'v2/services/RatesProvider';
 
-import TransactionFeeDisplay from './displays/TransactionFeeDisplay';
+import TransactionFeeDisplay from 'v2/components/TransactionFlow/displays/TransactionFeeDisplay';
 import {
-  AccountDropdown,
   AssetDropdown,
   EthAddressField,
   GasLimitField,
@@ -58,7 +66,6 @@ import {
   validateDataField,
   validateAmountField
 } from './validators/validators';
-import { IFormikFields, IStepComponentProps } from '../types';
 import { processFormForEstimateGas, isERC20Tx } from '../helpers';
 import { weiToFloat } from 'v2/utils';
 
@@ -277,11 +284,14 @@ export default function SendAssetsForm({
                   value={values.account}
                   component={({ field, form }: FieldProps) => {
                     const accountsWithAsset = getAccountsByAsset(accounts, values.asset);
+                    const relevantAccounts = accountsWithAsset.filter(
+                      account => account.wallet !== WalletId.VIEW_ONLY
+                    );
                     return (
                       <AccountDropdown
                         name={field.name}
                         value={field.value}
-                        accounts={accountsWithAsset}
+                        accounts={relevantAccounts}
                         onSelect={(option: ExtendedAccount) => {
                           form.setFieldValue('account', option); //if this gets deleted, it no longer shows as selected on interface, would like to set only object keys that are needed instead of full object
                           handleNonceEstimate(option);
@@ -380,6 +390,7 @@ export default function SendAssetsForm({
                       handleGasEstimate();
                       handleChange(e);
                     }}
+                    network={values.network}
                     gasPrice={values.gasPriceSlider}
                     gasEstimates={values.gasEstimates}
                   />

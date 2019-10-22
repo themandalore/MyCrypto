@@ -176,7 +176,7 @@ module.exports = function(opts = {}) {
         creator: config.twitter.creator
       },
       metaCsp: options.isProduction
-        ? "default-src 'none'; script-src 'self' https://0x.mycrypto.com; worker-src 'self' blob:; child-src 'self'; style-src 'self' 'unsafe-inline' https://0x.mycrypto.com; manifest-src 'self'; font-src 'self' https://0x.mycrypto.com; img-src 'self' data: https://shapeshift.io https://cdn.mycryptoapi.com; connect-src *; frame-src 'self' https://connect.trezor.io;"
+        ? "default-src 'none'; script-src 'self' https://0x.mycrypto.com; worker-src 'self' blob:; child-src 'self'; style-src 'self' 'unsafe-inline' https://0x.mycrypto.com; manifest-src 'self'; font-src 'self' https://0x.mycrypto.com; img-src 'self' data: https://shapeshift.io https://cdn.mycryptoapi.com/; connect-src *; frame-src 'self' https://connect.trezor.io;"
         : ''
     }),
 
@@ -295,6 +295,8 @@ module.exports = function(opts = {}) {
     } else {
       devtool = 'cheap-module-eval-source-map';
     }
+  } else {
+    devtool = 'cheap-module-source-map';
   }
 
   // ====================
@@ -302,7 +304,7 @@ module.exports = function(opts = {}) {
   // ====================
   const output = {
     path: path.resolve(config.path.output, options.outputDir),
-    filename: options.isProduction ? '[name].[hash].js' : '[name].js',
+    filename: options.isProduction ? '[name].[contenthash].js' : '[name].js',
     publicPath: isDownloadable && options.isProduction ? './' : '/',
     crossOriginLoading: 'anonymous',
     // Fix workers & HMR https://github.com/webpack/webpack/issues/6642

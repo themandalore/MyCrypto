@@ -1,5 +1,4 @@
 import React, { useContext, useState } from 'react';
-import { Redirect } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import { Button, Copyable, Identicon } from '@mycrypto/ui';
 
@@ -97,8 +96,7 @@ interface AccountListProps {
   currentsOnly?: boolean;
   deletable?: boolean;
   favoritable?: boolean;
-  footerAction?: string | JSX.Element;
-  footerActionLink?: string;
+  footer?: JSX.Element;
   copyable?: boolean;
 }
 
@@ -106,22 +104,9 @@ export const screenIsMobileSized = (breakpoint: number): boolean =>
   window.matchMedia(`(max-width: ${breakpoint}px)`).matches;
 
 export default function AccountList(props: AccountListProps) {
-  const {
-    className,
-    currentsOnly,
-    deletable,
-    favoritable,
-    footerAction,
-    footerActionLink,
-    copyable
-  } = props;
+  const { className, currentsOnly, deletable, favoritable, footer, copyable } = props;
   const { currentAccounts, accounts, deleteAccountFromCache } = useContext(StoreContext);
   const { updateAccount } = useContext(AccountContext);
-  const [deletingIndex, setDeletingIndex] = useState();
-  const shouldRedirect = accounts === undefined || accounts === null || accounts.length === 0;
-  if (shouldRedirect) {
-    return <Redirect to="/no-accounts" />;
-  }
 
   const overlayRows = [deletingIndex];
 
@@ -133,8 +118,7 @@ export default function AccountList(props: AccountListProps) {
       }`}
       actionLink={ROUTE_PATHS.ADD_ACCOUNT.path}
       className={`AccountList ${className}`}
-      footerAction={footerAction}
-      footerActionLink={footerActionLink}
+      footer={footer}
     >
       <TableContainer>
         <CollapsibleTable

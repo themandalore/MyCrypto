@@ -1,19 +1,20 @@
 import React, { useState } from 'react';
 
+import { RouteComponentProps } from 'react-router';
+
 import sendIcon from 'common/assets/images/icn-send.svg';
 import { ContentPanel } from 'v2/components';
 import { useStateReducer } from 'v2/utils';
-import { WalletId, ITxReceipt } from 'v2/types';
-import {
-  ConfirmTransaction,
-  SendAssetsForm,
-  SignTransaction,
-  TransactionReceipt
-} from './components';
-import { txConfigInitialState, TxConfigFactory } from './stateFactory';
-import { IFormikFields, IPath } from './types';
+import { WalletId, ITxReceipt, IFormikFields } from 'v2/types';
+import { ROUTE_PATHS } from 'v2/config';
+import { SendAssetsForm, SignTransaction } from './components';
 
-function SendAssets() {
+import { ConfirmTransaction, TransactionReceipt } from 'v2/components/TransactionFlow';
+import { txConfigInitialState, TxConfigFactory } from './stateFactory';
+import { IPath } from './types';
+import { translateRaw } from 'translations';
+
+function SendAssets({ history }: RouteComponentProps<{}>) {
   const [step, setStep] = useState(0);
   const {
     handleFormSubmit,
@@ -65,9 +66,11 @@ function SendAssets() {
   const goToPrevStep = () => setStep(Math.max(0, step - 1));
   const goToFirstStep = () => setStep(0);
 
+  const goBack = () => (step === 0 ? history.push(ROUTE_PATHS.DASHBOARD.path) : goToPrevStep());
+
   return (
     <ContentPanel
-      onBack={goToPrevStep}
+      onBack={goBack}
       heading={label}
       icon={sendIcon}
       stepper={{ current: step + 1, total: currentPath.length - 1 }}
@@ -76,6 +79,7 @@ function SendAssets() {
         txReceipt={txReceiptState}
         txConfig={txConfigState}
         onComplete={(payload: IFormikFields | ITxReceipt) => stepAction(payload, goToNextStep)}
+        completeButtonText={translateRaw('SEND_ASSETS_SEND_ANOTHER')}
         resetFlow={goToFirstStep}
       />
     </ContentPanel>

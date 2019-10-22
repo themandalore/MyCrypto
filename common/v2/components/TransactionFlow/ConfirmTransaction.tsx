@@ -8,9 +8,8 @@ import { AddressBookContext } from 'v2/services/Store';
 import { Amount } from 'v2/components';
 import { fromWei, Wei, totalTxFeeToString, totalTxFeeToWei } from 'v2/services/EthService';
 import { RatesContext } from 'v2/services/RatesProvider';
-import { TTicker } from 'v2/types';
+import { TTicker, IStepComponentProps } from 'v2/types';
 
-import { IStepComponentProps } from '../types';
 import './ConfirmTransaction.scss';
 import TransactionDetailsDisplay from './displays/TransactionDetailsDisplay';
 import TransactionIntermediaryDisplay from './displays/TransactionIntermediaryDisplay';
@@ -70,21 +69,21 @@ export default function ConfirmTransaction({
     <div className="ConfirmTransaction">
       <div className="ConfirmTransaction-row">
         <div className="ConfirmTransaction-row-column">
-          To:
-          <div className="ConfirmTransaction-addressWrapper">
-            <Address
-              address={receiverAddress || 'Unknown'}
-              title={recipientLabel}
-              truncate={truncate}
-            />
-          </div>
-        </div>
-        <div className="ConfirmTransaction-row-column">
           From:
           <div className="ConfirmTransaction-addressWrapper">
             <Address
               address={senderAccount ? senderAccount.address : 'Unknown'}
               title={senderAccountLabel}
+              truncate={truncate}
+            />
+          </div>
+        </div>
+        <div className="ConfirmTransaction-row-column">
+          To:
+          <div className="ConfirmTransaction-addressWrapper">
+            <Address
+              address={receiverAddress || 'Unknown'}
+              title={recipientLabel}
               truncate={truncate}
             />
           </div>
