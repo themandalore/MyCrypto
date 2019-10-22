@@ -107,6 +107,7 @@ export default function AccountList(props: AccountListProps) {
   const { className, currentsOnly, deletable, favoritable, footer, copyable } = props;
   const { currentAccounts, accounts, deleteAccountFromCache } = useContext(StoreContext);
   const { updateAccount } = useContext(AccountContext);
+  const [deletingIndex, setDeletingIndex] = useState();
 
   const overlayRows = [deletingIndex];
 
